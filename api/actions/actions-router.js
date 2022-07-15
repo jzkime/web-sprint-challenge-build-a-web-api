@@ -28,4 +28,12 @@ router.post('/', validateAction, (req, res, next) => {
         .catch(next)
 })
 
+router.put('/:id', validateActId, validateAction, (req, res, next) => {
+    const {id} = req.params;
+    if(req.action.completed === null) return next({status: 400, message: "invalid"});
+    actMod.update(id, req.action)
+        .then(upd => res.json(upd))
+        .catch(next)
+})
+
 module.exports = router;

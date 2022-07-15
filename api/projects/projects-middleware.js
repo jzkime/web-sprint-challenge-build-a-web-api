@@ -4,7 +4,7 @@ module.exports = {
     validateProj(req, res, next) {
         const {name, description, completed} = req.body;
         if(!(name) || !(description)) return next({message: "missing required field(s)", status: 400});
-        req.pj = {name: name.trim(), description: description.trim(), completed: completed || false};
+        req.pj = {name: name.trim(), description: description.trim(), completed: completed || null};
         next()
     },
 

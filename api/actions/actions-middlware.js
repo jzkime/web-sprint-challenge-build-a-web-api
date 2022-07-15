@@ -8,10 +8,9 @@ module.exports = {
         next()
     },
     validateAction(req, res, next) {
-        const { description, notes, project_id } = req.body;
-        console.log('???', notes)
+        const { description, notes, project_id, completed } = req.body;
         if(!(description) || !(notes) || !project_id) return next({status: 400, message: "invalid"})
-        req.action = {description: description.trim(), notes: notes.trim(), project_id};
+        req.action = {description: description.trim(), notes: notes.trim(), project_id, completed: completed || null};
         next()
     }
 }
