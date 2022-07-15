@@ -36,4 +36,10 @@ router.put('/:id', validateActId, validateAction, (req, res, next) => {
         .catch(next)
 })
 
+router.delete('/:id', validateActId, (req, res, next) => {
+    actMod.remove(req.params.id)
+        .then(() => res.send())
+        .catch(next)
+})
+
 module.exports = router;
