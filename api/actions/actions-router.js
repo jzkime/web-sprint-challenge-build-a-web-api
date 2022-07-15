@@ -21,6 +21,11 @@ router.get('/:id', validateActId, async (req, res, next) => {
     }
 });
 
-
+router.post('/', validateAction, (req, res, next) => {
+    console.log(req.action)
+    actMod.insert(req.action)
+        .then(act => res.json(act))
+        .catch(next)
+})
 
 module.exports = router;
