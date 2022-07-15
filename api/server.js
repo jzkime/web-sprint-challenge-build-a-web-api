@@ -17,7 +17,7 @@ server.use('/', (req, res) => {
 
 server.use((error, req, res, next) => {
     console.log({error});
-    res.status(error.status || 500).send({message: error.message, error: error || "internal server error"})
+    res.status(error.status || 500).send({message: error.message || "internal server error"})
 })
 
 module.exports = server;
