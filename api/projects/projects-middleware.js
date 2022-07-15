@@ -2,9 +2,9 @@
 const ProjMod = require('./projects-model')
 module.exports = {
     validateProj(req, res, next) {
-        const {name, description} = req.body;
-        if(!(name.trim()) || !(description.trim())) return next({message: "missing required field(s)", status: 400});
-        req.pj = {name: req.body.name.trim(), description: req.body.description.trim()};
+        const {name, description, completed} = req.body;
+        if(!(name) || !(description)) return next({message: "missing required field(s)", status: 400});
+        req.pj = {name: name.trim(), description: description.trim(), completed: completed || false};
         next()
     },
 
