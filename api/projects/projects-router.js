@@ -28,4 +28,10 @@ router.post('/', validateProj, (req, res, next) => {
         .catch(next)
 })
 
+router.put('/:id', validateProj, (req, res, next) => {
+    Projects.update(req.params.id, req.pj)
+        .then(proj => res.json(proj))
+        .catch(next)
+})
+
 module.exports = router;
