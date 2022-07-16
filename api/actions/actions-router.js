@@ -2,8 +2,9 @@
 const express = require('express');
 const router = express.Router();
 
-const actMod = require('./actions-model')
-const { validateActId, validateAction } = require('./actions-middlware')
+const actMod = require('./actions-model');
+const { validateActId, validateAction } = require('./actions-middlware');
+const { validateCompleted } = require('../server-middleware');
 
 router.get('/', (req, res, next) => {
     actMod.get()
@@ -23,15 +24,14 @@ router.get('/:id', validateActId, async (req, res, next) => {
 
 router.post('/', validateAction, (req, res, next) => {
     console.log(req.action)
-    actMod.insert(req.action)
+    actMod.insert(req.body)
         .then(act => res.json(act))
         .catch(next)
 })
 
-router.put('/:id', validateActId, validateAction, (req, res, next) => {
+router.put('/:id', validateActId, validateAction, validateCompleted, (req, res, next) => {
     const {id} = req.params;
-    if(req.action.completed === null) return next({status: 400, message: "invalid"});
-    actMod.update(id, req.action)
+    actMod.update(id, req.body)
         .then(upd => res.json(upd))
         .catch(next)
 })

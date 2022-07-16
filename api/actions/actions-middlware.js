@@ -9,8 +9,8 @@ module.exports = {
     },
     validateAction(req, res, next) {
         const { description, notes, project_id, completed } = req.body;
-        if(!(description) || !(notes) || !project_id) return next({status: 400, message: "invalid"})
-        req.action = {description: description.trim(), notes: notes.trim(), project_id, completed: completed || null};
+        if(!(description) || description.trim() === '' || !(notes) || notes.trim() === '' || !project_id) return next({status: 400, message: "invalid"})
+        req.body = {...req.body, project_id, completed: completed === undefined ? null : completed};
         next()
     }
 }

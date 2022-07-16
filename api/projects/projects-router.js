@@ -3,6 +3,7 @@ const express = require('express');
 const Projects = require('./projects-model')
 const { validateProj, validatePjId } = require('./projects-middleware')
 const router = express.Router();
+const { validateCompleted } = require('../server-middleware');
 
 router.get('/', async (req, res, next) => {
     try{
@@ -23,14 +24,13 @@ router.get('/:id', validatePjId, (req, res, next) => {
 })
 
 router.post('/', validateProj, (req, res, next) => {
-    Projects.insert(req.pj)
+    Projects.insert(req.body)
         .then(yay => res.json(yay))
         .catch(next)
 });
 
-router.put('/:id', validateProj, (req, res, next) => {
-    if(req.body.completed == null) return next({message: "missing required completed field", status: 400});
-    Projects.update(req.params.id, req.pj)
+router.put('/:id', validateProj, validateCompleted, (req, res, next) => {
+    Projects.update(req.params.id, req.body)
         .then(proj => res.json(proj))
         .catch(next)
 });
